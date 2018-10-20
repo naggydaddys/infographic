@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Rachel's Mundane Existence</title>
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	<link href="CSS/style.css" rel="stylesheet" type="text/css" />
+    
+    <meta name="viewport" content="width=device-width"> 
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+</head>
+
+<body>
+    <div id="container">
+        
+        <div id="section1">
+            <img id="back1" src="CSS/images/back1.png"/>
+            <div id="titleholder"><img src="CSS/images/titlebg.png"id="title"/></div>
+            <h1>MY BORING LIFE!</h1>
+            
+            <div id="section1Chart">
+                <h2>HOW MY TIME IS SPENT:</h2>
+                <h3>(hover over sections to learn more)</h3>
+                <div id="chart1"><canvas id="doughnutChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div id="section2">
+            <img id="back2" src="CSS/images/back2.png"/>
+        </div>
+        
+        <div id="section3">
+            <div id="text2">
+                    <h2>TOP PROCRASTINATION TECHNIQUES:</h2>
+                    <h3>1. Phone</h3>
+                    <h3>2. Sims</h3>
+                    <h3>3. Contemplating Existence</h3>
+                </div>
+        </div>
+        
+        <div id="section4">
+            <img id="back3" src="CSS/images/back3.png"/>
+        </div>
+        
+        <div id="arrow"><img src="CSS/images/arrow.png"/></div>
+        
+        <div id="section5">
+            <h2>YOU'RE PROBABLY WONDERING WHAT I COULD POSSIBLY BE DOING ON MY PHONE FOR ALL THAT TIME... LET ME BREAK IT DOWN:</h2>
+            <div id="section3Chart">
+                <div id="chart2"><canvas id="radar"></canvas></div>
+            </div>
+        </div>
+        
+        <div id="section6">
+            <img id="back4" src="CSS/images/back4.png"/>
+        </div>
+        
+        <div id="section7">
+            <h2>AS YOU MAY HAVE SUSPECTED, MY MOTIVATION AND PROCRASTINATION HAVE AN INVERSE CORRELATION:</h2>
+            <div id="js-legend" class="chart-legend"></div>
+            <div id="section7Chart">
+                <div id="chart3"><canvas id="line"></canvas></div>
+            </div>
+        </div>
+        
+        <div id="section8">
+            <h2>HOW DO I DO IT????</h2>
+        </div>
+        <img id="back5" src="CSS/images/back5.png"/>
+        
+        <div id="section9">
+            <h3>MY EXTREME EFFORTS TO PROCRASTINATE TO MY FULLEST POTENTIAL ARE EXHAUSTING. I MUST SLEEP AT LEAST 8 HOURS EVERY NIGHT IN ORDER TO MAINTAIN SUCH A LIFESTYLE.</h3>
+        </div>
+        <div id="chart4"><canvas id="pieC"></canvas></div>
+        <div id="legend">
+            <h2>AVERAGE SLEEP CYCLE:</h2>
+            <div id="js-legend2" class="chart-legend2"></div>
+        </div>
+        
+        <img id="back6" src="CSS/images/back6.png"/>
+        
+        <div id="section10">
+            <h2>DAILY WATER CONSUMPTION IN OZ.</h2>
+            <div id="chart5"><canvas id="barre"></canvas></div>
+            <h3>THE INTERNET SAYS I SHOULD DRINK AROUND 100 OZ. OF WATER EACH DAY. HOWEVER, MY PROCRASTINATION REQUIRES LITTLE TO NO MOVEMENT AND THEREFORE I CAN FUNCTION ON LESS THAN 50 OZ.</h3>
+        </div>
+        
+        <img id="back7" src="CSS/images/back7.png"/>
+        <h2 id="est">FINAL ESTIMATES:</h2>
+        <div id="stats">
+            <div id="stat1">
+                <img src="CSS/images/water.png"/>
+                <h3>ESTIMATED YEARLY WATER CONSUMPTION</h3>
+                <h4>14600 OZ.</h4>
+            </div>
+            <div id="stat2">
+                <img src="CSS/images/sleep.png"/>
+                <h3>ESTIMATED YEARLY SLUMBER TIME</h3>
+                <h4>2920 HRS.</h4>
+            </div>
+            <div id="stat3">
+                <img src="CSS/images/phone.png"/>
+                <h3>ESTIMATED YEARLY PHONE USAGE</h3>
+                <h4>1095 HRS.</h4>
+            </div>
+            
+            </div>
+        <img id="back8" src="CSS/images/back8.png"/>
+    </div>
+    
+<!-- Donut   -->
+<script>
+    
+    var options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    scaleOverride: true,
+    scaleSteps: 10,
+    scaleStepWidth: 10,
+    scaleStartValue: 0,
+    tooltipTemplate: "<%= value %>% <%=label%>",
+    showTooltips: true,
+    animateRotate: true
+}
+
+// Doughnut Chart Data
+var doughnutData = [
+	{
+		value: 34,
+        color:"#000000",
+        label: "Sleeping",
+	},
+	{
+		value : 4,
+		color : "#464646",
+        label: "Gym"
+	},
+	{
+		value : 5,
+		color : "#696969",
+        label: "Eating"
+	},
+	{
+		value : 15,
+		color : "#8C8C8C",
+        label: "Schoolwork"
+	},
+	{
+		value : 26,
+		color : "#FCEE21",
+        label: "Procrastination"
+	},
+	{
+		value : 5,
+		color : "#A3A3A3",
+        label: "Socializing"
+	},
+	{
+		value : 11,
+		color : "#BABABA",
+        label: "Class"
+	}
+
+]
+
+
+//Get the context of the Doughnut Chart canvas element we want to select
+var ctx = document.getElementById("doughnutChart").getContext("2d");
+
+// Create the Doughnut Chart
+var mydoughnutChart = new Chart(ctx).Doughnut(doughnutData, options);
+    
+</script>    
+    
+<!--radar-->
+<script>
+    var waypoint = new Waypoint({
+    element: document.getElementById('arrow'),
+    handler: function() {
+        var data = {
+            labels: ["Reading", "Netflix", "Tumblr", "GroupMe", "Facebook", "Snapchat", "Instagram"],
+        datasets: [
+        {
+            label: "My First dataset",
+            backgroundColor: "rgba(252,238,33,1)",
+            borderColor: "rgba(0,0,0,0)",
+            fillColor: "rgba(252,238,33,.6)",
+            pointBackgroundColor: "rgba(0,0,0,0)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(179,181,198,1)",
+            data: [30, 15, 15, 15, 10, 10, 5]
+            
+        },
+    ]
+};
+
+        var options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            scaleOverride: true,
+            scaleSteps: 3,
+            pointLabelFontSize: 20,
+            pointLabelFontFamily : "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+            scaleStepWidth: 10,
+            scaleStartValue: 0,
+            tooltipTemplate: "<%= value %>% <%=label%>",
+            scaleLineColor : "black",
+            animation : true,
+            animationSteps : 200,
+            animationEasing : "easeOutQuart",
+            pointLabelFontColor : "black"
+        }
+
+        var radarchart = $("#radar").get(0).getContext("2d");
+        var rc = new Chart(radarchart).Radar(data, options);
+    }
+    });
+        var data = {
+            labels: ["Reading", "Netflix", "Tumblr", "GroupMe", "Facebook", "Snapchat", "Instagram"],
+        datasets: [
+        {
+            label: "My First dataset",
+            backgroundColor: "rgba(252,238,33,1)",
+            borderColor: "rgba(0,0,0,0)",
+            fillColor: "rgba(252,238,33,.6)",
+            pointBackgroundColor: "rgba(0,0,0,0)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(179,181,198,1)",
+            data: [0, 0, 0, 0, 0, 0, 0]
+            
+        },
+    ]
+};
+
+        var options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            scaleOverride: true,
+            scaleSteps: 3,
+            pointLabelFontSize: 20,
+            pointLabelFontFamily : "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+            scaleStepWidth: 10,
+            scaleStartValue: 0,
+            tooltipTemplate: "<%= value %>% <%=label%>",
+            scaleLineColor : "black",
+            animation : true,
+            animationSteps : 100,
+            animationEasing : "easeOutQuart",
+            pointLabelFontColor : "black"
+        }
+
+        var radarchart = $("#radar").get(0).getContext("2d");
+        var rc = new Chart(radarchart).Radar(data, options);
+</script>
+    
+<!--line-->
+<script>
+    var waypoint = new Waypoint({
+    element: document.getElementById('section6'),
+    handler: function() {
+        var data = {
+    labels: ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"],
+    datasets: [
+        {
+            label: "Motivation",
+            fillColor: "rgba(252,238,33,0)",
+            strokeColor: "rgba(252,238,33,.6)",
+            pointColor: "rgba(252,238,33,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [60, 50, 40, 30, 70, 20, 10]
+        },
+        {
+            label: "Procrastination",
+            fillColor: "rgba(0,0,0,0)",
+            strokeColor: "rgba(0,0,0,1)",
+            pointColor: "rgba(0,0,0,.6)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [40, 50, 60, 70, 30, 80, 90]
+        }
+    ]
+};
+
+    var options = {
+        responsive: true,
+        maintainAspectRatio: true,
+        scaleOverride: true,
+        scaleSteps: 10,
+        scaleStepWidth: 10,
+        scaleStartValue: 0,
+        tooltipTemplate: "<%= value %>%", 
+        scaleFontSize : 16,
+        animation : true,
+        animationSteps : 200,
+        animationEasing : "easeOutCirc"
+    }
+
+    var linechart = $("#line").get(0).getContext("2d");
+    var l = new Chart(linechart).Line(data, options);
+    }
+    });
+    var data = {
+    labels: ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"],
+    datasets: [
+        {
+            label: "Motivation",
+            fillColor: "rgba(252,238,33,0)",
+            strokeColor: "rgba(252,238,33,.6)",
+            pointColor: "rgba(252,238,33,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+            label: "Procrastination",
+            fillColor: "rgba(0,0,0,0)",
+            strokeColor: "rgba(0,0,0,1)",
+            pointColor: "rgba(0,0,0,.6)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [0, 0, 0, 0, 0, 0, 0]
+        }
+    ]
+};
+    var options = {
+        responsive: true,
+        maintainAspectRatio: true,
+        scaleOverride: true,
+        scaleSteps: 10,
+        scaleStepWidth: 10,
+        scaleStartValue: 0,
+        tooltipTemplate: "<%= value %>%", 
+        scaleFontSize : 16,
+        animation : false
+    }
+    var linechart = $("#line").get(0).getContext("2d");
+    var l = new Chart(linechart).Line(data, options);
+    document.getElementById('js-legend').innerHTML = l.generateLegend();
+
+</script> 
+   
+<!--pie-->
+<script>
+    var waypoint = new Waypoint({
+    element: document.getElementById('back5'),
+    handler: function(){
+            var pieData = [
+	{
+		value: 57,
+        color:"#FCEE21",
+        label: "Deep+REM Sleep",
+	},
+	{
+		value : 30,
+		color : "#464646",
+        label: "Light Sleep"
+	},
+	{
+		value : 13,
+		color : "#696969",
+        label: "Awake"
+	}
+]
+    var options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    scaleOverride: true,
+    scaleSteps: 10,
+    scaleStepWidth: 10,
+    scaleStartValue: 0,
+    tooltipTemplate: "<%= value %>% <%=label%>", 
+    scaleFontSize : 16,
+    animation: true,
+    animationSteps:70,
+    animationEasing: "easeOutElastix"
+}
+    var piee = document.getElementById("pieC").getContext("2d");
+    var mypieChart = new Chart(piee).Pie(pieData, options);
+    document.getElementById('js-legend2').innerHTML = mypieChart.generateLegend();
+        
+    }
+    }); 
+    
+</script>
+    
+<!--bar-->
+<script>
+    var waypoint = new Waypoint({
+    element: document.getElementById('back6'),
+    handler: function(){
+        var Bdata = {
+        labels: ["Sun", "Mon", "Tues", "Wed", "Thurs","Fri","Sat"],
+        datasets: [
+            {
+                label: "Water in oz. consumed",
+                fillColor: "rgba(252,238,33,1)",
+                strokeColor: "rgba(0,0,0,0)",
+                pointColor: "rgba(0,0,0,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [41, 36, 40, 44, 40, 24, 50]
+            }
+        ]
+    };
+
+        var options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            scaleOverride: true,
+            scaleSteps: 5,
+            scaleStepWidth: 10,
+            scaleStartValue: 0,
+            animation: true,
+            animationSteps: 400,
+            animationEasing:"easeOutExpo"
+    }
+        var barchart = $("#barre").get(0).getContext("2d");
+        var b = new Chart(barchart).Bar(Bdata, options);
+    }
+});
+    var Bdata = {
+    labels: ["Sun", "Mon", "Tues", "Wed", "Thurs","Fri","Sat"],
+    datasets: [
+        {
+            label: "Water in oz. consumed",
+            fillColor: "rgba(252,238,33,1)",
+            strokeColor: "rgba(0,0,0,0)",
+            pointColor: "rgba(0,0,0,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [0,0,0,0,0,0,0]
+        }
+    ]
+};
+
+var options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    scaleOverride: true,
+    scaleSteps: 5,
+    scaleStepWidth: 10,
+    scaleStartValue: 0,
+    animation: false,
+}
+var barchart = $("#barre").get(0).getContext("2d");
+var b = new Chart(barchart).Bar(Bdata, options);
+Chart.defaults.global.scaleLineColor = "black";
+    </script>
+
+
+</body>
+
+</html>
